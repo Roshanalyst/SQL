@@ -1,8 +1,19 @@
+SELECT * 
+FROM BIT_DB.customers 
+LIMIT 20;
+
+SELECT * 
+FROM JanSales 
+LIMIT 20;
+
+
 /*1. How many orders were placed in January? */
 SELECT COUNT(orderID)
 FROM BIT_DB.JanSales
 WHERE length(orderID) = 6
 AND orderID <> 'Order ID';
+
+/*I used the COUNT function to calculate how many orders were specifically placed in January. 
 
 /*2. How many of those orders were for an iPhone?*/ 
 SELECT COUNT(orderID)
@@ -11,19 +22,32 @@ WHERE product = 'iPhone'
 AND length(orderID) = 6
 AND orderID <> 'Order ID';
 
+/*I used the COUNT function to calculate how many orders filtered with the WHERE function to calculate 
+based only on the iphone. */ 
+
+
 /*3. Select the customer account numbers for all the orders that were placed in February. */ 
 SELECT distinct acctnum
 FROM BIT_DB.customers 
 INNER JOIN BIT_DB.FebSales
 ON BIT_DB.customers.order_ID = BIT_DB.FebSales.orderID
 WHERE length(orderid) = 6 
-AND orderid <> 'Order I
+AND orderid <> 'Order ID';
+
+/*The questions asks for customer account numbers that were placed in February, which calls for an INNER JOIN function. 
+The only column that both tables have are orderID/order_ID, which will help to pull any similiarities within both 
+tables that relate to acctnum that are not duplicates. There's also a query that filters any order ID's that have
+a character length more than 6 and have anything other than the actual ID number*/
 
 /*4. Which product was the cheapest one sold in January, and what was the price?*/ 
 SELECT DISTINCT Product,
 price 
 FROM BIT_DB.JanSales
 WHERE price IN (SELECT MIN(price) FROM BIT_DB.JanSales);
+
+/*To find the cheapest product sold in January, I pulled columns Product and price; I used the DISTINCT funtion
+to remove any duplicates of products that might skew the number. From there, to find the cheapest price, I implented a subquery
+that specifically uses the MIN function. */
 
 /*Distinct function was used to select the distinct/unique values from the Product and price columns, which we are retrieving from BIT_DB.JanSales table. I also
 chose to filter by price to filter the rows where the value in 'price' column matches the minimum price found within the subquery; this subquery calculates the minimum price. All in all, the query will give a list of 
@@ -64,7 +88,7 @@ one location/address, I specified with the WHERE clause that the location column
 amount spent for those customers?*/ 
 
 SELECT Product, 
-AVG(Quantity)*price as avg_total,
+AVG(Quantity*price) as avg_total,
 COUNT(acctnum)
 FROM BIT_DB.FebSales 
 LEFT JOIN BIT_DB.customers
@@ -73,6 +97,14 @@ WHERE BIT_DB.FebSales.Quantity > 2
 AND length(orderid) = 6 
 AND orderid <> 'Order ID';
 
+
+/*There are several columns that I would like to select for this prompt: Product, acctnum, Quantity and price. 
+Since we are looking for the average total amount spent for these customers that ordered more than 2
+products, I used the AVG function to calculate the product of quantity and price. Since the columns that I'm pulling
+from are from 2 different tables, I also want to use the COUNT function to count how many customers
+that ordered more than 2 products in the month of February. Now I wanted to join all records from the FebSales table and match 
+the customer info from the customers table, which is why I used LEFT JOIN function. Lastly, to tie it all together, 
+I filtered based on Quantity of more than 2 from the FebSales table to get the results. */
 
 
 

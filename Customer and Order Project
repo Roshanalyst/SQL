@@ -106,5 +106,14 @@ that ordered more than 2 products in the month of February. Now I wanted to join
 the customer info from the customers table, which is why I used LEFT JOIN function. Lastly, to tie it all together, 
 I filtered based on Quantity of more than 2 from the FebSales table to get the results. */
 
+/*List all the products sold in Los Angeles in February, and include how many of each were sold.*/
+SELECT Product,
+SUM(Quantity),
+location
+FROM BIT_DB.FebSales
+WHERE location like '%Los Angeles%'
+GROUP BY product;
+
+
 
 

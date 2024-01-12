@@ -1,0 +1,48 @@
+/*What are the 10 most popular tracks based on the 'popularity' score?*/ 
+SELECT track_name,
+artist_name,
+popularity
+FROM BIT_DB.Spotifydata
+WHERE popularity >= 90
+ORDER BY popularity DESC
+LIMIT 10;
+
+/*Which artists have the highest average energy in their tracks? */ 
+SELECT track_name,
+artist_name,
+AVG(energy) AS avg_energy
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY avg_energy DESC
+LIMIT 10;
+
+/*How does danceability affect track popularity?*/ 
+SELECT track_name,
+danceability, 
+AVG(popularity) AS avg_pop
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY danceability DESC;
+
+/*What is the distribution of song keys across all tracks?*/
+SELECT track_name,
+song_key,
+COUNT(*) AS key_count
+FROM BIT_DB.Spotifydata
+GROUP BY song_key
+ORDER BY key_count DESC;
+
+/*Which tracks have the highest speechiness and are still highly popular?*/
+SELECT track_name,
+popularity, 
+AVG(speechiness) AS avg_speech
+FROM BIT_DB.Spotifydata
+GROUP BY track_name
+ORDER BY avg_speech DESC, popularity DESC;
+
+
+/*What is the average duration of tracks in different time signatures?*/
+SELECT time_signature,
+AVG(duration_ms) AS avg_duration
+FROM BIT_DB.Spotifydata
+GROUP BY time_signature;
